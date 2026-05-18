@@ -26,8 +26,7 @@ sed -e "s/__SID__/${SID}/g" \
     -e "s/__SEED__/${SEED}/g" \
     -e "s/__BOT_0__/${BOT[0]}/g" \
     -e "s/__BOT_1__/${BOT[1]}/g" \
-    -e "s/__REC_0__/$(basename ${RECORDING[0]})/g" \
-    -e "s/__REC_1__/$(basename ${RECORDING[1]})/g" \
+    -e "s/__RECORDING__/$(basename ${RECORDING[0]})/g" \
     "${TEMPLATE}" > "${WEB_DIR}/index.html"
 
 

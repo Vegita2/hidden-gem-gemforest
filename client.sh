@@ -36,25 +36,15 @@ fi
 
 cd "${BOT_DIR}"
 
-# truncate the log
-:>stderr.log
+socat \
+     SYSTEM:"./start.sh ${BOT_ARGS} 2>stderr.log | sed -u 's/[[:space:]].*//' | pv -l -N Ticks:" \
+     TCP:${REMOTE_HOST}:${PORT},retry=240,interval=5
 
-function connect_bot
-{
-    socat \
-         SYSTEM:"./start.sh ${BOT_ARGS} 2>>stderr.log | sed -u 's/[[:space:]].*//' | pv -l -N Ticks:" \
-         TCP:${REMOTE_HOST}:${PORT},retry=240,interval=5
-}
-
-connect_bot
-sleep 10 # give the server some slack
-connect_bot
 
 echo "Falls alles gut ging:
 Report:
 https://${REMOTE_HOST}/matches/${SID}/
 
-Aufzeichnungen:
-http://${REMOTE_HOST}/matches/${SID}/recording-${SEED},json.gz
-http://${REMOTE_HOST}/matches/${SID}/recording-swap-${SEED},json.gz
+Aufzeichnung:
+http://${REMOTE_HOST}/matches/${SID}/recording-${SEED}.json.gz
 "
