@@ -3,7 +3,7 @@
 set -u
 set -e
 
-: ${BOT_DIR=../../pathowlogica}
+: ${BOT_DIR?nicht gesetzt!}
 : ${BOT_ARGS=}
 
 REMOTE_HOST=gemforest.servegame.com
@@ -37,7 +37,7 @@ fi
 cd "${BOT_DIR}"
 
 socat \
-     SYSTEM:"./start.sh ${BOT_ARGS} 2>stderr.log | sed -u 's/[[:space:]].*//' | pv -l -N Ticks:" \
+     SYSTEM:"bash -c './start.sh ${BOT_ARGS} 2>stderr.log | sed -u \"s/[[:space:]].*//\" | pv -l -N Ticks:'" \
      TCP:${REMOTE_HOST}:${PORT},retry=240,interval=5
 
 
