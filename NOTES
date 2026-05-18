@@ -1,0 +1,21 @@
+
+
+# crontab -e
+*/10 * * * * /opt/sparring/cleanup.sh >/dev/null 2>&1
+0 6 * * * /opt/sparring/getseed.sh >/tmp/sparring.seed
+
+
+install at
+remove www-data from /etc/at.deny
+add to /etc/at.allow
+check permissions -rw-r----- 1 root daemon
+
+
+uncomment de_AT.UTF-8 in /etc/locale.gen
+locale-gen de_AT.UTF-8
+update-locale
+
+
+openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+    -keyout /etc/nginx/ssl/sparring.key \
+    -out /etc/nginx/ssl/sparring.crt

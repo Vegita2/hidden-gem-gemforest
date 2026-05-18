@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparring Match: __SID__</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            padding: 30px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #333;
+        }
+        h1 {
+            font-size: 22px;
+            margin-top: 0;
+            color: #00ffcc;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 15px;
+        }
+        dt {
+            padding-top: 15px;
+            padding-bottom: 10px;
+        }
+        a {
+            color: #00ffcc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Match-Aufzeichnung</h1>
+        <dl>
+            <dt>Session-ID:</dt><dd>__SID__</dd>
+            <dt>Datum:</dt><dd> __DATE__</dd>
+            <dt>Seed:</dt><dd>__SEED__</dd>
+            <dt>Bots:</dt><dd>__BOT_0__ vs. __BOT_1__</dd>
+            <dt>Aufzeichnungen:</dt>
+            <dd>
+                <p><a href="__REC_0__">__REC_0__</a></p>
+                <p><a href="__REC_1__">__REC_1__</a></p>
+            </dd>
+        </dl>
+    </div>
+
+</body>
+</html>
+
