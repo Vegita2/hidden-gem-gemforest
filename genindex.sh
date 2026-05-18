@@ -35,17 +35,20 @@ cat <<EOF > "${INDEX_FILE}"
         <ul>
 EOF
 
+mapfile -t MATCH_DIRS < <(ls -dt "${WEB_DIR}"/*/)
+
 # Schleife über alle Unterordner/Sessions (falls du pro Match einen Ordner hast)
 # Oder alternativ über die generierten HTML-Dateien
-for match_dir in "${WEB_DIR}"/*; do
-    if [ -d "${match_dir}" ]; then
-        SESSION_ID=$(basename "${match_dir}")
-
-        # Holt das Erstellungsdatum des Matches im AT-Format (z.B. 17. Mai 2026)
-        MATCH_DATE=$(date -r "${match_dir}" "+%-d. %B %Y")
+for match_dir in "${MATCH_DIRS[@]}"
+do
+    if [[ -d "${match_dir}" ]]; then
+        SID=$(basename "${match_dir}")
+        MATCH_DATE=$(date -r "${match_dir}")
+        read SEED <"${match_dir}/seed"
+        mapfile -t BOT <"${match_dir}/bots"
 
         # Zeile zum Index hinzufügen
-        echo "            <li><a href=\"${SESSION_ID}/index.html\">Session ${SESSION_ID}</a> <span class=\"date\">${MATCH_DATE}</span></li>" >> "${INDEX_FILE}"
+        echo "            <li><a href=\"${SID}/\">${SID}</a><span>${BOT[0]} vs. ${BOT[1]}</span><span>${SEED}</span><span class=\"date\">${MATCH_DATE}</span></li>" >> "${INDEX_FILE}"
     fi
 done
 

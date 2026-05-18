@@ -22,17 +22,16 @@ done
 cp "${TMP_DIR}/seed" "${WEB_DIR}/"
 
 # bots
-while read _ name
+IFS=:; while read _ name
 do
     read _ emoji
     echo $name $emoji
-done < <(cat "${TMP_DIR}"/bot_*/bot.yaml) >"${WEB_DIR}/bots"
+done < <(sed -n -E '/\<name\>|\<emoji\>/p' "${TMP_DIR}"/bot_*/bot.yaml) >"${WEB_DIR}/bots"
 
 
 ### implicit data below
 
 # date
-# LC_TIME="de_AT.UTF-8" date -d "$(stat -c%w .)"
 #LC_TIME="de_AT.UTF-8" date >"${WEB_DIR}/date"
 #date '+%d.%m.%Y %H:%M' >"${WEB_DIR}/date"
 
@@ -40,4 +39,5 @@ done < <(cat "${TMP_DIR}"/bot_*/bot.yaml) >"${WEB_DIR}/bots"
 #echo "${SID}" >"${WEB_DIR}/sid"
 
 /opt/sparring/genreport.sh "${WEB_DIR}"
+/opt/sparring/genindex.sh
 

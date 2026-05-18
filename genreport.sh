@@ -11,7 +11,7 @@ TEMPLATE="/opt/sparring/template.html"
 
 SID="$(basename "${WEB_DIR}")"
 
-DATE="$(LC_TIME="de_AT.UTF-8" date -d "$(stat -c%w "${WEB_DIR}")")"
+DATE="$(LC_TIME="de_AT.UTF-8" date -r "${WEB_DIR}")"
 
 read SEED <"${WEB_DIR}/seed"
 
