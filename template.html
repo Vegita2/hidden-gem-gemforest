@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -6,39 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sparring Match: __SID__</title>
     <style>
-        body {
-            font-family: sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            padding: 30px;
+        /* --- WALD-THEME FARBPALETTE --- */
+        :root {
+            --bg-color: #141f19;       /* Tiefes Tannengrün */
+            --container-bg: #1b2a22;   /* Dunkles Moosgrün */
+            --text-color: #e2ece9;     /* Sanftes Graugrün */
+            --accent-green: #4ade80;   /* Frisches Maigrün */
+            --accent-earth: #b45309;   /* Warmes Erd-Braun */
+            --border-color: #2d4337;   /* Ast-Grau */
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 30px;
+            margin: 0;
+        }
+
         .container {
             max-width: 600px;
             margin: 0 auto;
-            background-color: #1e1e1e;
-            padding: 20px;
-            border-radius: 6px;
-            border: 1px solid #333;
+            background-color: var(--container-bg);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
         }
+
         h1 {
-            font-size: 22px;
+            font-size: 24px;
             margin-top: 0;
-            color: #00ffcc;
+            margin-bottom: 20px;
+            color: #ffffff;
+            border-bottom: 2px solid var(--accent-earth);
+            padding-bottom: 8px;
         }
-        p {
-            margin: 10px 0;
-            font-size: 15px;
+
+        /* --- STYLING FÜR DIE BOT-DATA LISTE --- */
+        dl {
+            margin: 0;
+            display: grid;
+            grid-template-columns: 130px 1fr; /* Saubere Ausrichtung in zwei Spalten */
+            row-gap: 12px;
         }
+
         dt {
-            padding-top: 15px;
-            padding-bottom: 10px;
+            font-weight: 600;
+            color: var(--accent-green);
         }
+
+        dd {
+            margin: 0;
+            font-family: Consolas, Monaco, monospace; /* Monospace für IDs und Seeds */
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            word-break: break-all;
+        }
+
+        /* Sonderfall für den Link, damit er im Kasten nicht die Schriftart ändert */
+        dd a {
+            font-family: inherit; 
+        }
+
+        /* --- LINKS --- */
         a {
-            color: #00ffcc;
+            color: var(--accent-green);
             text-decoration: none;
+            transition: color 0.2s ease;
+            border-bottom: 1px dashed var(--accent-green);
         }
+
         a:hover {
-            text-decoration: underline;
+            color: #ffffff;
+            border-bottom-style: solid;
         }
     </style>
 </head>
@@ -47,16 +89,25 @@
     <div class="container">
         <h1>Match-Aufzeichnung</h1>
         <dl>
-            <dt>Session-ID:</dt><dd>__SID__</dd>
-            <dt>Datum:</dt><dd> __DATE__</dd>
-            <dt>Seed:</dt><dd>__SEED__</dd>
-            <dt>Bots:</dt><dd>__BOT_0__ vs. __BOT_1__</dd>
-            <dt>Endstand:</dt><dd>__SCORE__</dd>
+            <dt>Session-ID:</dt>
+            <dd>__SID__</dd>
+
+            <dt>Datum:</dt>
+            <dd>__DATE__</dd>
+
+            <dt>Seed:</dt>
+            <dd>__SEED__</dd>
+
+            <dt>Bots:</dt>
+            <dd>__BOT_0__ vs. __BOT_1__</dd>
+
+            <dt>Endstand:</dt>
+            <dd>__SCORE__</dd>
+
             <dt>Aufzeichnung:</dt>
-                <dd><a href="__RECORDING__">__RECORDING__</a></dd>
+            <dd><a href="__RECORDING__">__RECORDING__</a></dd>
         </dl>
     </div>
 
 </body>
 </html>
-
