@@ -25,11 +25,11 @@ read SID PORT SEED INIT <<<"$REST"
 if [[ $INIT = yes ]]
 then
     echo "Session erzeugt!
-Session-ID: $SID
-Der andere Client muss innerhalb von 4 Minuten die Session joinen!
+Sparring-ID: $SID
+Der andere Client muss innerhalb von 5 Minuten die Session joinen!
 Gespielt wird Seed: $SEED"
 else
-    echo "Session $SID gejoined!
+    echo "Sparring $SID gejoined!
 Gespielt wird Seed: $SEED"
 fi
 
@@ -37,8 +37,8 @@ fi
 cd "${BOT_DIR}"
 
 socat \
-     SYSTEM:"bash -c './start.sh ${BOT_ARGS} 2>stderr.log | sed -u \"s/[[:space:]].*//\" | pv -l -N Ticks:'" \
-     TCP:${REMOTE_HOST}:${PORT},retry=240,interval=5
+     SYSTEM:"bash -c './start.sh ${BOT_ARGS} 2>stderr.log | sed -u \"s/[[:space:]].*//\" | pv -l -N Ticks'",pipes \
+     TCP:${REMOTE_HOST}:${PORT},retry=60,interval=5
 
 
 echo "Falls alles gut ging:
