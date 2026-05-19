@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemforest Live-Sparring Service</title>
+    <style>
+        /* --- WALD-THEME FARBPALETTE --- */
+        :root {
+            --bg-color: #141f19;       /* Tiefes Tannengrün / fast schwarz */
+            --container-bg: #1b2a22;   /* Dunkles Moosgrün für den Inhalt */
+            --text-color: #e2ece9;     /* Sanftes, helles Graugrün (augenfreundlich) */
+            --accent-green: #4ade80;   /* Frisches Maigrün für Links/Highlights */
+            --accent-earth: #b45309;   /* Warmes Erd-Braun für Akzente */
+            --border-color: #2d4337;   /* Ast-Grau für Trennlinien */
+            --code-bg: #0f1713;         /* Sehr dunkles Grün für Code-Blöcke */
+        }
+
+        /* --- BASIS STYLES --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--container-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+        }
+
+        /* --- MARKDOWN ELEMENTS STYLING --- */
+        h1, h2, h3, h4 {
+            color: #ffffff;
+            font-weight: 600;
+            margin-top: 1.6em;
+            margin-bottom: 0.6em;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            border-bottom: 2px solid var(--accent-earth);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: var(--accent-green);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+        }
+
+        p {
+            margin-bottom: 1.2em;
+        }
+
+        /* Links */
+        a {
+            color: var(--accent-green);
+            text-decoration: none;
+            transition: color 0.2s ease-in-out;
+            border-bottom: 1px dashed var(--accent-green);
+        }
+
+        a:hover {
+            color: #ffffff;
+            border-bottom-style: solid;
+        }
+
+        /* Listen */
+        ul, ol {
+            margin-bottom: 1.2em;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 0.4em;
+        }
+
+        /* Zitate (> in Markdown) */
+        blockquote {
+            margin: 1.5em 0;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid var(--accent-earth);
+            font-style: italic;
+            color: #cbd5e1;
+        }
+
+        /* Code-Blöcke (``` in Markdown) */
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+        }
+
+        code {
+            font-family: 'Fira Code', Consolas, Monaco, monospace;
+            font-size: 0.9rem;
+            background-color: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #f472b6; /* Leichtes Beeren-Rosa für Inline-Code */
+        }
+
+        pre code {
+            padding: 0;
+            color: #e2ece9;
+            background-color: transparent;
+        }
+
+        /* Horizontale Linie (--- in Markdown) */
+        hr {
+            border: 0;
+            height: 1px;
+            background: var(--border-color);
+            margin: 2.5em 0;
+        }
+
+        /* Tabellen */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5em;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        th {
+            color: var(--accent-green);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 30px;
+            font-size: 0.85rem;
+            text-align: center;
+            color: rgba(226, 236, 233, 0.4);
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        __CONTENT__
+        <footer>
+            Generiert aus einer Markdown-Datei • 2026
+        </footer>
+    </div>
+</body>
+</html>
