@@ -44,7 +44,9 @@ do
     if [[ -d "${match_dir}" ]]; then
         SID=$(basename "${match_dir}")
         MATCH_DATE=$(date -r "${match_dir}")
+
         read SEED <"${match_dir}/seed"
+        #read SCORE <"${match_dir}/score"
         mapfile -t BOT <"${match_dir}/bots"
 
         # Zeile zum Index hinzufügen

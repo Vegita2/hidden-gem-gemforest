@@ -12,22 +12,23 @@ WEB_DIR="/var/www/sparring/${SID}"
 
 mkdir -p "${WEB_DIR}"
 
+# seed
+jq -r '.[0].seed' \
+    "${TMP_DIR}/profile.json" >"${WEB_DIR}/seed"
+
+# bots
+jq -r '.[0,1]|"\(.emoji) \(.name)"' \
+    "${TMP_DIR}/profile.json" >"${WEB_DIR}/bots"
+
+# score
+jq -r '[.[0,1].total_score] | join(" : ")' \
+    "${TMP_DIR}/profile.json" >"${WEB_DIR}/score"
+
 # recordings
-for gzfile in "${TMP_DIR}"/*.json.gz
+for gzfile in "${TMP_DIR}"/recording-*.json.gz
 do
     mv "$gzfile" "${WEB_DIR}/"
 done
-
-# seed
-cp "${TMP_DIR}/seed" "${WEB_DIR}/"
-
-# bots
-IFS=:; while read _ name
-do
-    read _ emoji
-    echo $name $emoji
-done < <(sed -n -E '/\<name\>|\<emoji\>/p' "${TMP_DIR}"/bot_*/bot.yaml) >"${WEB_DIR}/bots"
-
 
 ### implicit data below
 
