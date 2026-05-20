@@ -38,7 +38,7 @@ cat <<EOF > "${INDEX_FILE}"
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
             background-color: var(--container-bg);
             padding: 30px 40px;
@@ -56,41 +56,73 @@ cat <<EOF > "${INDEX_FILE}"
             margin-bottom: 20px;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
-        li {
-            padding: 12px 8px;
+        th, td {
+            text-align: left;
+            padding: 10px 12px;
             border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
+            width: 1%;
+            white-space: nowrap;
         }
 
-        li:hover {
+        th.spacer, td.spacer {
+            width: auto;
+        }
+
+        th {
+            color: rgba(226, 236, 233, 0.7);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--accent-earth);
+        }
+
+        tbody tr:hover {
             background-color: rgba(255, 255, 255, 0.02);
         }
 
-        /* --- ELEMENTE IN DER LISTE --- */
-        .sid a {
+        .id a {
             color: var(--accent-green);
             text-decoration: none;
             font-weight: bold;
             border-bottom: 1px dashed var(--accent-green);
         }
 
-        .sid a:hover {
+        .id a:hover {
             color: #ffffff;
             border-bottom-style: solid;
         }
 
-        .bots {
-            flex-grow: 1;
-            font-weight: 500;
+        .score {
+            font-family: Consolas, Monaco, monospace;
+            text-align: right;
+        }
+
+        .score-left {
+            font-family: Consolas, Monaco, monospace;
+            text-align: left;
+        }
+
+        .winner {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .loser {
+            color: rgba(226, 236, 233, 0.7);
+        }
+
+        .score-sep {
+            font-family: Consolas, Monaco, monospace;
+            text-align: center;
+            padding-left: 4px;
+            padding-right: 4px;
+            color: rgba(226, 236, 233, 0.5);
         }
 
         .seed {
@@ -98,19 +130,21 @@ cat <<EOF > "${INDEX_FILE}"
             background-color: rgba(0, 0, 0, 0.2);
             padding: 2px 6px;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .date {
             color: rgba(226, 236, 233, 0.5);
             font-size: 14px;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Verfügbare Match-Aufzeichnungen</h1>
-        <ul>
+        <table>
+            <tbody>
 EOF
 
 # Verzeichnisse nach Zeit sortiert (Neu -> Alt) einlesen
@@ -124,28 +158,59 @@ do
         MATCH_DATE=$(date -r "${match_dir}")
 
         # Daten sicher auslesen
-        read -r SEED < "${match_dir}/seed"
-        mapfile -t BOT < "${match_dir}/bots"
+        SEED=""
+        [[ -f "${match_dir}/seed" ]] && read -r SEED < "${match_dir}/seed"
+
+        BOT=("" "")
+        [[ -f "${match_dir}/bots" ]] && mapfile -t BOT < "${match_dir}/bots"
+
+        SCORE_LINE=""
+        [[ -f "${match_dir}/score" ]] && read -r SCORE_LINE < "${match_dir}/score"
+        # Erwartetes Format: "scoreA : scoreB"
+        SCORE_A=""
+        SCORE_B=""
+        if [[ -n "${SCORE_LINE}" ]]; then
+            SCORE_A="${SCORE_LINE%% : *}"
+            SCORE_B="${SCORE_LINE##* : }"
+        fi
+
+        # Sieger ermitteln (nur wenn beide Werte numerisch sind)
+        CLASS_A=""
+        CLASS_B=""
+        if [[ "${SCORE_A}" =~ ^-?[0-9]+$ && "${SCORE_B}" =~ ^-?[0-9]+$ ]]; then
+            if (( SCORE_A > SCORE_B )); then
+                CLASS_A=" winner"
+                CLASS_B=" loser"
+            elif (( SCORE_B > SCORE_A )); then
+                CLASS_A=" loser"
+                CLASS_B=" winner"
+            fi
+        fi
 
         # Zeile formatiert zum Index hinzufügen
         cat <<ROW >> "${INDEX_FILE}"
-            <li>
-                <span class="sid"><a href="${SID}/">${SID}</a></span>
-                <span class="bots">${BOT[0]} vs. ${BOT[1]}</span>
-                <span class="seed">${SEED}</span>
-                <span class="date">${MATCH_DATE}</span>
-            </li>
+                <tr>
+                    <td class="id"><a href="${SID}/">${SID}</a></td>
+                    <td class="bot1${CLASS_A}">${BOT[0]:-}</td>
+                    <td class="score${CLASS_A}">${SCORE_A}</td>
+                    <td class="score-sep">:</td>
+                    <td class="score-left${CLASS_B}">${SCORE_B}</td>
+                    <td class="bot2${CLASS_B}">${BOT[1]:-}</td>
+                    <td class="spacer"></td>
+                    <td><span class="seed">${SEED}</span></td>
+                    <td class="date">${MATCH_DATE}</td>
+                </tr>
 ROW
     fi
 done
 
 # HTML-Ende schreiben
 cat <<EOF >> "${INDEX_FILE}"
-        </ul>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
 EOF
 
 echo "Index erfolgreich in de-AT generiert!"
-
