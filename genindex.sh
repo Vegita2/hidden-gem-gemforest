@@ -155,6 +155,10 @@ for match_dir in "${MATCH_DIRS[@]}"
 do
     if [[ -d "${match_dir}" ]]; then
         SID=$(basename "${match_dir}")
+
+        # Skip non-match directories (e.g. /static for shared assets)
+        [[ "${SID}" == "static" ]] && continue
+
         MATCH_DATE=$(date -r "${match_dir}")
 
         # Daten sicher auslesen

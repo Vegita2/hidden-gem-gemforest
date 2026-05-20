@@ -1,0 +1,313 @@
+.ansi-player-screen {
+    padding: 0.5em;
+    background: #080808;
+    border-radius: 0.5em;
+    position: relative;
+    cursor: pointer;
+}
+
+@media (min-width: 594px) {
+    .ansi-player-screen {
+        padding: 0.75em;
+    }
+}
+
+.ansi-player-screen canvas {
+    width: 100%;
+}
+
+/* Center play/pause/loading icons */
+.ansi-player-screen i.bi.bi-ansi-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 3em;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    transition: font-size 0.3s, opacity 0.3s;
+}
+
+.ansi-player-screen i.bi-play-fill {
+    padding-left: 0.1em;
+}
+
+.ansi-player-screen .hide {
+    opacity: 0;
+    font-size: 2em;
+}
+
+/* Loading pulse */
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.2;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.6;
+    }
+}
+
+i.bi-circle {
+    background: none;
+    animation: pulse 1.6s infinite;
+}
+
+i.bi-circle.hide {
+    animation: none;
+}
+
+/* ---------------- JSON panel ---------------- */
+
+.ansi-player-json {
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+@media (min-width: 768px) {
+    .ansi-player-json {
+        height: 295px;
+    }
+}
+
+@media (min-width: 992px) {
+    .ansi-player-json {
+        height: 346px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .ansi-player-json {
+        height: 410px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .ansi-player-json {
+        height: 475px;
+    }
+}
+
+/* ---------------- Controls ---------------- */
+
+.ansi-controls {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .2s;
+}
+
+.ansi-player-screen:hover .ansi-controls,
+.ansi-player-screen.ansi-controls-force .ansi-controls {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Bottom gradient behind controls */
+.ansi-player-screen::after {
+    border-radius: 0.5em;
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: clamp(56px, 18%, 140px);
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, .78),
+            rgba(0, 0, 0, .55) 40%,
+            transparent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+    z-index: 1;
+}
+
+.ansi-player-screen:hover::after,
+.ansi-player-screen.ansi-controls-force::after,
+.ansi-zooming::after {
+    opacity: 1;
+}
+
+/* ---------------- Progress bar ---------------- */
+
+.ansi-progress {
+    flex: 1;
+    height: 8px;
+    /* visual size */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, .28), rgba(255, 255, 255, .12));
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18),
+        0 0 0 1px rgba(0, 0, 0, .25);
+    position: relative;
+    cursor: pointer;
+    touch-action: none;
+}
+
+/* huge “click radius” for comfort */
+.ansi-progress::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -10px;
+    bottom: -10px;
+    /* +20px hitbox */
+    pointer-events: auto;
+}
+
+.ansi-progress-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, .95), rgba(255, 255, 255, .7));
+}
+
+/* Playhead */
+.ansi-progress-head {
+    position: absolute;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, .35), 0 0 6px rgba(0, 0, 0, .45);
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform .15s;
+    pointer-events: none;
+}
+
+.ansi-player-screen:hover .ansi-progress-head,
+.ansi-progress.scrubbing .ansi-progress-head {
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+/* ---------------- Fullscreen / Cinema / Zoom ---------------- */
+
+.ansi-fs-btn, .ansi-dl-btn {
+    padding: 4px 6px;
+    border: 0;
+    border-radius: 4px;
+    background: none!important;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.ansi-fs-btn .bi, .ansi-dl-btn .bi {
+    color: white;
+    opacity: 0.75;
+}
+
+.ansi-fs-btn:hover .bi, .ansi-dl-btn:hover .bi {
+    color: white;
+    opacity: 1;
+}
+
+.ansi-fs-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.ansi-cinema-overlay,
+.ansi-zoom-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .9);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s;
+    z-index: 9998;
+}
+
+.ansi-cinema-active,
+.ansi-zooming {
+    position: fixed !important;
+    z-index: 9999;
+    will-change: transform;
+}
+
+/* Cinema panel box */
+.ansi-cinema-active {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    height: 80vh;
+    background: #000;
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, .7);
+}
+
+.ansi-cinema-active canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.ansi-zoom-active .ansi-zoom-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+body.ansi-zoom-active {
+    overflow: hidden;
+}
+
+/* When idle, hide controls unless scrubbing or hovered */
+.ansi-player-screen.idle .ansi-controls:not(.scrubbing):not(:hover) {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Default: controls visible */
+.ansi-controls { opacity: 1; pointer-events: auto; }
+
+/* Idle always wins (even on hover / in cinema/zoom) */
+.ansi-player-screen.idle .ansi-controls {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide the bottom gradient too when idle */
+.ansi-player-screen.idle::after {
+  opacity: 0 !important;
+}
+
+.card {
+    border-radius: 0.75em;
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.25);
+    border: none;
+}
+
+.card-body {
+    padding: 0;
+}
+
+.card .ansi-player-screen {
+    border-radius: 0;
+}
+
+.ansi-player-screen.ansi-zooming {
+    padding: 0;
+    canvas {
+        border-radius: 0.5em;
+        box-shadow: 0 0 3em rgba(0, 0, 0, 1);
+    }
+}
