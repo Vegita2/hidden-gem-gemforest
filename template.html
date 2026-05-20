@@ -44,6 +44,35 @@
             color: #ffffff;
             border-bottom: 2px solid var(--accent-earth);
             padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            line-height: 1;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .back-btn .bi {
+            line-height: 1;
+        }
+
+        .back-btn:hover {
+            background-color: var(--accent-earth);
+            color: #ffffff;
+            border: 1px solid var(--accent-earth);
         }
 
         /* --- STYLING FÜR DIE BOT-DATA LISTE --- */
@@ -101,7 +130,7 @@
 <body>
 
     <div class="container">
-        <h1>Match-Aufzeichnung</h1>
+        <h1><a class="back-btn" href="../" title="Zurück zur Übersicht"><i class="bi bi-arrow-left"></i></a>Match-Aufzeichnung</h1>
         <dl>
             <dt>Session-ID:</dt>
             <dd>__SID__</dd>
