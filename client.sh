@@ -38,7 +38,7 @@ cd "${BOT_DIR}"
 
 socat \
      SYSTEM:"bash -c './start.sh ${BOT_ARGS} 2>stderr.log | sed -u \"s/[[:space:]].*//\" | pv -l -N Ticks'",pipes \
-     TCP:${REMOTE_HOST}:${PORT},retry=60,interval=5
+     TCP:${REMOTE_HOST}:${PORT},nodelay,retry=60,interval=5
 
 
 echo "Falls alles gut ging:
