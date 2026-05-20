@@ -1,0 +1,11 @@
+services:
+  sparring:
+    build:
+      context: ./docker
+    image: gemforest-local
+    container_name: gemforest
+    network_mode: host
+    volumes:
+      # Edit the gemforest scripts on the host; they take effect on
+      # the next match without rebuilding the image.
+      - .:/opt/sparring:ro

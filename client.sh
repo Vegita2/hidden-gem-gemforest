@@ -6,7 +6,7 @@ set -e
 : ${BOT_DIR?nicht gesetzt!}
 : ${BOT_ARGS=}
 
-REMOTE_HOST=gemforest.servegame.com
+REMOTE_HOST=${REMOTE_HOST:-gemforest.servegame.com}
 
 
 IFS=":" ; read STATUS REST <<<$(curl -s --fail-with-body -X POST \
